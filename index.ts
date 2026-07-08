@@ -6,11 +6,11 @@ function fizzbuzz(max:number, rules: number[]): void {
     for (let i = 1; i <= max; i++) {
         const messageList:string[] = [];
     
-        if (i % 3 == 0) {
+        if ((rules.length == 0 || rules.includes(3)) && (i % 3 == 0)) {
             messageList.push("Fizz");
         }
         
-        if (i % 5 == 0) {
+        if ((rules.length == 0 || rules.includes(5)) && (i % 5 == 0)) {
             messageList.push("Buzz");
         }
 
@@ -23,7 +23,7 @@ function fizzbuzz(max:number, rules: number[]): void {
             messageList.push("Bong");
         }
 
-        if (i % 13 == 0) {
+        if ((rules.length == 0 || rules.includes(13)) && (i % 13 == 0)) {
             const index:number = messageList.findIndex(message => message[0] == 'B');
             if (index == -1)
                 messageList.push("Fezz");
@@ -43,34 +43,37 @@ function fizzbuzz(max:number, rules: number[]): void {
     }
 }
 
-const rl1 = readline.createInterface({
+const rl = readline.createInterface({
     input:process.stdin,
     output:process.stdout
 })
 
-const rl2 = readline.createInterface({
-    input:process.stdin,
-    output:process.stdout
-})
-
-function fizzbuzzread(): void {
-    let max:number = 0;
-    rl1.question('Enter max number: ', (maxNumber:string) => {
-        const max:number = Number(maxNumber);
-        rl2.question('Choose rules to apply (out of 3, 5, 13): ', (input: string) => {
-            const r: string[] = input.split("//s+");
-            const rules: number[] = [];
-
-            for (let i = 0; i < r.length; i++) {
-                rules.push(Number(r.at(i)));
-            }
-
-            fizzbuzz(max, rules);
-
-            rl2.close();
+function askQuestion(input: string): Promise<string> {
+    return new Promise((resolve) => {
+        rl.question(input, (answer: string) => {
+            resolve(answer.trim());
         });
-        rl1.close();   
     });
+}
+
+async function fizzbuzzread() {
+    try {
+        const maxNumber: string = await askQuestion("Enter max number: ");
+        const r : string[] = (await askQuestion("Choose rules to apply (out of 3, 5, 13): ")).split(/[,; ]+/);
+
+        const max:number = Number(maxNumber);
+        const rules: number[] = [];
+
+        for (let i = 0; i < r.length; i++) {
+            rules.push(Number(r.at(i)));
+        }
+
+        fizzbuzz(max, rules);
+    } catch (err) {
+        console.log("Error reading input: ", err);
+    } finally {
+        rl.close();
+    }
 }
 
 
