@@ -1,12 +1,7 @@
 import process from 'node:process';
 import * as readline from 'node:readline'
 
-const rl = readline.createInterface({
-    input:process.stdin,
-    output:process.stdout
-})
-
-function fizzbuzz(max:number): void {
+function fizzbuzz(max:number, rules: number[]): void {
 
     for (let i = 1; i <= max; i++) {
         const messageList:string[] = [];
@@ -48,14 +43,35 @@ function fizzbuzz(max:number): void {
     }
 }
 
+const rl1 = readline.createInterface({
+    input:process.stdin,
+    output:process.stdout
+})
+
+const rl2 = readline.createInterface({
+    input:process.stdin,
+    output:process.stdout
+})
+
 function fizzbuzzread(): void {
     let max:number = 0;
-    rl.question('Enter max number: ', (maxNumber:string) => 
-        {
+    rl1.question('Enter max number: ', (maxNumber:string) => {
         const max:number = Number(maxNumber);
-        fizzbuzz(max);
-        rl.close();   
+        rl2.question('Choose rules to apply (out of 3, 5, 13): ', (input: string) => {
+            const r: string[] = input.split("//s+");
+            const rules: number[] = [];
+
+            for (let i = 0; i < r.length; i++) {
+                rules.push(Number(r.at(i)));
+            }
+
+            fizzbuzz(max, rules);
+
+            rl2.close();
         });
+        rl1.close();   
+    });
 }
-// Now, we run the main function:
+
+
 fizzbuzzread();
