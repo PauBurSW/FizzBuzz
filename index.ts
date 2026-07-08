@@ -1,6 +1,15 @@
+import process from 'node:process';
+import * as readline from 'node:readline'
+
+const rl = readline.createInterface({
+    input:process.stdin,
+    output:process.stdout
+})
+
 // This is our main function
-function fizzbuzz(): void {
-    for (let i = 1; i <= 100; i++) {
+function fizzbuzz(max:number): void {
+
+    for (let i = 1; i <= max; i++) {
         const messageList:string[] = [];
     
         if (i % 3 == 0) {
@@ -34,6 +43,10 @@ function fizzbuzz(): void {
                 messageList.push("Fezz");
         }
 
+        if (i % 17 == 0) {
+            messageList.reverse();
+        }
+
         if (!messageList.length) {
             console.log(i);
         } else {
@@ -41,5 +54,15 @@ function fizzbuzz(): void {
         }
     }
 }
+
+function fizzbuzzread(): void {
+    let max:number = 0;
+    rl.question('Enter max number: ', (maxNumber:string) => 
+        {
+        const max:number = Number(maxNumber);
+        fizzbuzz(max);
+        rl.close();   
+        });
+}
 // Now, we run the main function:
-fizzbuzz();
+fizzbuzzread();

@@ -10,7 +10,8 @@
 	"isolatedModules": true, // Ensure each file can be transpiled independently
 	"jsx": "react-jsx", // JSX support for React projects
 	"outDir": "./dist", // Output directory for compiled files
-	"baseUrl": ".", // Base directory for module resolution
+	"baseUrl": ".",
+	"types": ["node"],
 	"paths": { // Optional: custom module paths
 	"@components/*": ["src/components/*"]
     }
