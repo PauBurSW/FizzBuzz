@@ -6,7 +6,6 @@ const rl = readline.createInterface({
     output:process.stdout
 })
 
-// This is our main function
 function fizzbuzz(max:number): void {
 
     for (let i = 1; i <= max; i++) {
