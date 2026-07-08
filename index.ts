@@ -29,17 +29,11 @@ function fizzbuzz(max:number): void {
         }
 
         if (i % 13 == 0) {
-            for (let i = 0; i < messageList.length; i++) {
-                if (i == messageList.length - 1) {
-                    messageList.push("Fezz");
-                    break;
-                } else if (messageList[i + 1][1] == 'B') {
-                    messageList.splice(i + 1, 0, "Fezz");
-                    break;
-                }
-            }
-            if (messageList.length == 0)
+            const index:number = messageList.findIndex(message => message[0] == 'B');
+            if (index == -1)
                 messageList.push("Fezz");
+            else
+                messageList.splice(index, 0, "Fezz");
         }
 
         if (i % 17 == 0) {
